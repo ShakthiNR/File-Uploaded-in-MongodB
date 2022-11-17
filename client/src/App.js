@@ -33,13 +33,15 @@ function App() {
     setLoading(true);
     var formData = new FormData();
     formData.append("file", file);
-    console.log("File",file.type.includes('csv'));
+ 
+    //File Format Check
     if(!file.type.includes('csv') && !file.type.includes('xlsx') ){
          alert('Only .csv and .xlsx files are allowed')
          setLoading(false)
          return
     }
-    console.log("File",file)
+  
+    //Send file(formData)
     fetch("http://localhost:3001/api/upload", {
       method: "POST",
       body: formData,
