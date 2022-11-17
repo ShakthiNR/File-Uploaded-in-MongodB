@@ -25,6 +25,7 @@ function App() {
   //Save File in State
   const handleChange = (e) => {
     setFile(e.target.files[0]);
+    
   };
 
   const handleSubmit = (e) => {
@@ -32,6 +33,13 @@ function App() {
     setLoading(true);
     var formData = new FormData();
     formData.append("file", file);
+    console.log("File",file.type.includes('csv'));
+    if(!file.type.includes('csv') && !file.type.includes('xlsx') ){
+         alert('Only .csv and .xlsx files are allowed')
+         setLoading(false)
+         return
+    }
+    console.log("File",file)
     fetch("http://localhost:3001/api/upload", {
       method: "POST",
       body: formData,
@@ -50,7 +58,7 @@ function App() {
           <form id="upload_form" encType="multipart/form-data" name="file">
             <div>
               <label>Select file to upload</label>
-              <input type="file" id="fileinput" onChange={handleChange} />
+              <input type="file" id="fileinput" accept=".csv, application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" onChange={handleChange} />
             </div>
             <br />
             <button type="submit" onClick={handleSubmit}>
